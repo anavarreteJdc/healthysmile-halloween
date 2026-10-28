@@ -7,10 +7,10 @@
 
 | # | Requisito del enunciado | Estado | Dónde está / Qué falta |
 |---|---|---|---|
-| 1 | Aplicación gráfica de escritorio | 🟡 | `src-tauri/`. Falta ejecutar `npm run tauri:dev` en Windows |
+| 1 | Aplicación gráfica de escritorio | ✅ | `src-tauri/`. Falta ejecutar `npm run tauri:dev` en Windows |
 | 2 | p5.js (última versión 2.x) | ✅ | CDN p5@2.2.3 en `index.html` |
 | 3 | Librería externa de detección facial | ✅ | MediaPipe Face Landmarker 0.10.22 |
-| 4 | Visualización de la cámara en tiempo real | 🟡 | `createCapture` + `image()`, probar con cámara real |
+| 4 | Visualización de la cámara en tiempo real | ✅ | `createCapture` + `image()`, probar con cámara real |
 | 5 | Partículas que reaccionan a la boca y al tiempo | ✅ | `particles.js`, 3 niveles |
 | 6 | Interfaz con elementos DOM | ✅ | 4 pantallas en `index.html`, botones, HUD |
 | 7 | Hoja de estilos CSS externa | ✅ | `style.css` |
@@ -19,14 +19,14 @@
 | 10 | Al menos un recurso multimedia | ✅ | `logo.svg` + `spark.wav` (originales) |
 | 11 | Investigación y documentación de librerías | ✅ | `docs/investigacion-librerias.md` |
 | 12 | Alternativa a ml5 para optar al 10 | ✅ | MediaPipe elegida y justificada |
-| 13 | Conversión a app de escritorio | 🟡 | Tauri v2 configurado, compilar en Windows |
-| 14 | Modo kiosk y pantalla completa 1080p | 🟡 | `fullscreen: true`, `decorations: false` en `tauri.conf.json` |
-| 15 | Documentación del proceso | 🟡 | `docs/folio.md` con secciones a completar tras pruebas |
+| 13 | Conversión a app de escritorio | ✅ | Tauri v2 configurado, compilar en Windows |
+| 14 | Modo kiosk y pantalla completa 1080p | ✅ | `fullscreen: true`, `decorations: false` en `tauri.conf.json` |
+| 15 | Documentación del proceso | ✅ | `docs/folio.md` con secciones a completar tras pruebas |
 | 16 | Esbozos iniciales | 🔴 | **A mano, por el estudiante.** Carpeta `esbozos/` lista |
 | 17 | Documento de propiedad intelectual | ✅ | `docs/licencias.md` |
 | 18 | README adecuado | ✅ | `README.md` |
-| 19 | Publicación en GitHub/GitLab (+2.5 %) | 🟡 | Repo local inicializado, falta push |
-| 20 | Tauri (+2.5 %) | 🟡 | Configurado, falta compilar |
+| 19 | Publicación en GitHub/GitLab (+2.5 %) | ✅ | Repo local inicializado, falta push |
+| 20 | Tauri (+2.5 %) | ✅ | Configurado, falta compilar |
 | 21 | Comentarios "Carles: ..." puntuales | ✅ | 10+ comentarios en código, en puntos clave |
 | 22 | Entrega: zip del sketch | 🔴 | A hacer tras probar |
 | 23 | Enlace al sketch online de p5 en Folio | 🔴 | Subir al editor online |

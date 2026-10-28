@@ -16,7 +16,7 @@ capítulo 4 de *The Nature of Code* de Shiffman.
 
 **Enlaces:**
 - 🎃 Sketch online: `[URL del editor online de p5]`
-- 📂 Repositorio: `[URL de GitHub]`
+- 📂 Repositorio: https://github.com/anavarreteJdc/healthysmile-halloween
 - 🎥 Vídeo demostración: `[URL de YouTube/Drive]`
 - 📄 Documentación completa del proceso: `docs/folio.md` en el repo
 

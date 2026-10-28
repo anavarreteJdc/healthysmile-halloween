@@ -4,7 +4,7 @@
 **Reto HealthySmile Lab · Cepillado digital Halloween**
 
 > **Enlace al sketch online de p5:** `[A completar: subir sketch al editor online y pegar enlace]`
-> **Enlace al repositorio público:** `[A completar: crear repo en GitHub y pegar enlace]`
+> **Enlace al repositorio público:** https://github.com/anavarreteJdc/healthysmile-halloween
 > **Enlace al vídeo de demostración:** `[A completar: grabar vídeo de 2 min y subir a YouTube o Drive]`
 
 > **Nota sobre uso de IA (voluntaria, basada en el feedback de Carles en la PEC
