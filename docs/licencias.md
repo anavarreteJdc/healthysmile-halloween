@@ -23,7 +23,7 @@ Se cargan en runtime desde CDN; no se redistribuyen ficheros ajenos en el repo.
 | Librería | Versión fijada | Licencia | URL |
 |---|---|---|---|
 | p5.js | 2.2.3 | LGPL-2.1 | https://p5js.org/ |
-| @mediapipe/tasks-vision | 0.10.22 | Apache-2.0 | https://developers.google.com/mediapipe |
+| @mediapipe/tasks-vision | 1.2.0 | Apache-2.0 | https://developers.google.com/mediapipe |
 | Modelo `face_landmarker.task` | v1 float16 | Apache-2.0 (Google) | https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task |
 | Tauri | v2 | MIT / Apache-2.0 | https://v2.tauri.app/ |
 

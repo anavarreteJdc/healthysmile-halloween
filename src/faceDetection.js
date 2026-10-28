@@ -11,7 +11,7 @@
 
 // URL del CDN de MediaPipe. Pongo versión fijada para que no cambie
 // la API por una actualización inesperada.
-const MP_WASM = 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/wasm';
+const MP_WASM = 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@1.2.0/wasm';
 const MP_MODEL = 'https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task';
 
 // Carles: índices de los landmarks que uso. Vienen del modelo de MediaPipe

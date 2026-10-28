@@ -43,7 +43,7 @@ pide investigarlas.
   módulo ESM, lo que requiere `type="module"` en el `<script>`.
 - **Fuentes:**
   - [https://developers.google.com/edge/mediapipe/solutions/vision/face_landmarker/web_js](https://developers.google.com/edge/mediapipe/solutions/vision/face_landmarker/web_js)
-  - [https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/vision_bundle.mjs](https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/vision_bundle.mjs)
+  - [https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@1.2.0/vision_bundle.mjs](https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@1.2.0/vision_bundle.mjs)
 
 ### face-api.js (original)
 - **Pros:** detecta emociones de serie (`faceExpressionNet`).
@@ -74,7 +74,7 @@ Elijo **MediaPipe Face Landmarker** porque:
 
 ## Lo que NO he podido verificar
 
-- La versión exacta publicada hoy en npm. Fijé `@0.10.22` porque es la última
+- La versión exacta publicada hoy en npm. Fijé `@1.2.0` porque es la última
   que aparece en jsDelivr al escribir esto, pero no he podido comprobar
   `npm view @mediapipe/tasks-vision version` desde este entorno. Si al ejecutar
   en tu Windows la versión ha cambiado, revisa el `index.html` y el import

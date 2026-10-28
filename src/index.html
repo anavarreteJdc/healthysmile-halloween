@@ -16,7 +16,7 @@
        Expongo FaceLandmarker/FilesetResolver en window para que sketch.js los use. -->
   <script type="module">
     try {
-      const vision = await import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/vision_bundle.mjs');
+      const vision = await import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@1.2.0/vision_bundle.mjs');
       window.MediaPipeVision = vision;
       console.log('[MediaPipe] module cargado:', Object.keys(vision).slice(0,5));
     } catch (err) {

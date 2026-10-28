@@ -15,12 +15,19 @@
     "tauri:build": "tauri build"
   },
   "devDependencies": {
-    "electron": "^33.0.0"
+    "electron": "^33.0.0",
+    "http-server": "^14.1.1"
   },
   "build": {
     "appId": "com.arturo.healthysmile.halloween",
     "productName": "HealthySmile Halloween",
-    "files": ["electron/**/*", "src/**/*"],
-    "win": { "target": "nsis", "icon": "src-tauri/icons/icon.ico" }
+    "files": [
+      "electron/**/*",
+      "src/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "src-tauri/icons/icon.ico"
+    }
   }
 }
