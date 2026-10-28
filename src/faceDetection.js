@@ -34,12 +34,17 @@ let lastVideoTime = -1;
 export async function initFaceLandmarker(onProgress) {
   if (onProgress) onProgress(0.1, 'Cargando librería MediaPipe...');
 
-  // Import dinámico del módulo ESM
-  const vision = await import(
-    /* @vite-ignore */
-    'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/vision_bundle.mjs'
-  );
-  const { FaceLandmarker, FilesetResolver } = vision;
+  // Carles: espero a que MediaPipe se haya cargado desde el <script type="module">
+  // del index.html. Lo expuse en window.MediaPipeVision.
+  // Si en 15 segundos no está, tiramos error. Esto suele pasar sin internet.
+  const timeout = Date.now() + 15000;
+  while (!window.MediaPipeVision && Date.now() < timeout) {
+    await new Promise(r => setTimeout(r, 100));
+  }
+  if (!window.MediaPipeVision) {
+    throw new Error('No se pudo cargar MediaPipe (sin internet? proxy?)');
+  }
+  const { FaceLandmarker, FilesetResolver } = window.MediaPipeVision;
 
   if (onProgress) onProgress(0.4, 'Descargando runtime WASM...');
   const filesetResolver = await FilesetResolver.forVisionTasks(MP_WASM);

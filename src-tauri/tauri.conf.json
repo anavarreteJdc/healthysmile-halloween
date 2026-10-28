@@ -13,18 +13,20 @@
       {
         "label": "main",
         "title": "HealthySmile Halloween",
-        "width": 1920,
-        "height": 1080,
-        "fullscreen": true,
+        "width": 1400,
+        "height": 900,
+        "fullscreen": false,
         "resizable": true,
-        "decorations": false,
+        "decorations": true,
         "alwaysOnTop": false,
         "focus": true
       }
     ],
     "security": {
       "csp": null,
-      "capabilities": ["default"]
+      "capabilities": [
+        "default"
+      ]
     }
   },
   "bundle": {

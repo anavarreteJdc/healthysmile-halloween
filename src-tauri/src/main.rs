@@ -2,10 +2,18 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    // Carles: código mínimo de Tauri. No necesito comandos personalizados
-    // porque toda la lógica está en el frontend (p5 + MediaPipe).
-    // Tauri sirve la carpeta ../src como webview y da acceso a getUserMedia.
     tauri::Builder::default()
+        .setup(|app| {
+            // Carles: en modo debug abro automaticamente las devtools
+            // para poder ver los errores de JavaScript en vivo.
+            #[cfg(debug_assertions)]
+            {
+                use tauri::Manager;
+                let window = app.get_webview_window("main").unwrap();
+                window.open_devtools();
+            }
+            Ok(())
+        })
         .run(tauri::generate_context!())
         .expect("Error al iniciar Tauri");
 }

@@ -9,7 +9,21 @@
        sobre usar la última versión y la carga asíncrona. En el editor online de p5 esto
        funciona igual. En Tauri necesita internet en el primer arranque. -->
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.min.js" defer></script>
+  <!-- Carles: cargo p5 SIN defer para que esté disponible como global cuando
+       se ejecute sketch.js (si no, en Tauri el orden puede fallar). -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.min.js"></script>
+  <!-- Carles: cargo MediaPipe como modulo ESM aquí (más fiable que import() dinámico).
+       Expongo FaceLandmarker/FilesetResolver en window para que sketch.js los use. -->
+  <script type="module">
+    try {
+      const vision = await import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/vision_bundle.mjs');
+      window.MediaPipeVision = vision;
+      console.log('[MediaPipe] module cargado:', Object.keys(vision).slice(0,5));
+    } catch (err) {
+      console.error('[MediaPipe] fallo cargando modulo:', err);
+      window.MediaPipeLoadError = err;
+    }
+  </script>
 </head>
 <body>
   <!-- Carles: todo lo que ve el usuario fuera del canvas lo construyo con el DOM,
@@ -77,8 +91,19 @@
 
   </div>
 
-  <!-- Carles: cargo los módulos como type="module" porque MediaPipe Tasks es ESM.
-       sketch.js importa faceDetection.js y particles.js. -->
-  <script type="module" src="sketch.js" defer></script>
+  <!-- Panel de errores visibles (ayuda a depurar en Tauri sin DevTools) -->
+  <div id="error-overlay" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#2a0000;color:#ff8080;padding:1rem;font-family:monospace;font-size:12px;max-height:40vh;overflow:auto;z-index:9999;border-top:2px solid red;"></div>
+  <script>
+    // Capturar errores globales y mostrarlos
+    function showError(msg) {
+      const el = document.getElementById('error-overlay');
+      if (!el) return;
+      el.style.display = 'block';
+      el.innerHTML += '<div>' + new Date().toLocaleTimeString() + ' - ' + msg + '</div>';
+    }
+    window.addEventListener('error', (e) => showError('[JS] ' + e.message + ' @ ' + (e.filename || '') + ':' + (e.lineno || '')));
+    window.addEventListener('unhandledrejection', (e) => showError('[Promise] ' + (e.reason && e.reason.message ? e.reason.message : String(e.reason))));
+  </script>
+  <script type="module" src="sketch.js"></script>
 </body>
 </html>

@@ -2,16 +2,25 @@
   "name": "healthysmile-halloween",
   "private": true,
   "version": "1.0.0",
-  "description": "Aplicación interactiva de cepillado dental con detección facial, temática Halloween. UOC - 20.671 R2.",
+  "description": "Aplicación interactiva de cepillado dental con detección facial, temática Halloween. UOC 20.671 R2.",
   "author": "Arturo Navarrete Jiménez",
   "license": "MIT",
+  "main": "electron/main.js",
   "scripts": {
     "dev": "npx --yes http-server src -p 5173 -c-1 -o",
+    "start": "electron .",
+    "build": "electron-builder",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^2.0.0"
+    "electron": "^33.0.0"
+  },
+  "build": {
+    "appId": "com.arturo.healthysmile.halloween",
+    "productName": "HealthySmile Halloween",
+    "files": ["electron/**/*", "src/**/*"],
+    "win": { "target": "nsis", "icon": "src-tauri/icons/icon.ico" }
   }
 }
