@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Folio - R2 HealthySmile Halloween - Arturo Navarrete</title>
+<style>
+  body { font-family: 'Nunito', Georgia, sans-serif; max-width: 820px; margin: 2rem auto; padding: 0 1rem; color: #222; line-height: 1.6; }
+  h1, h2, h3 { color: #8e44ff; margin-top: 1.8rem; }
+  h1 { border-bottom: 3px solid #ff7518; padding-bottom: 0.4rem; }
+  h2 { border-bottom: 1px solid #ddd; padding-bottom: 0.3rem; }
+  code { background: #f4f0f8; padding: 0.15em 0.4em; border-radius: 3px; font-size: 0.9em; }
+  pre { background: #1a0b2e; color: #f3eafd; padding: 1rem; border-radius: 6px; overflow-x: auto; }
+  pre code { background: none; color: inherit; padding: 0; }
+  blockquote { border-left: 4px solid #ff7518; margin-left: 0; padding: 0.5rem 1rem; background: #fff8f0; color: #553; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
+  th { background: #8e44ff; color: white; }
+  tr:nth-child(even) { background: #faf7fc; }
+  a { color: #ff7518; }
+  a:hover { color: #8e44ff; }
+</style>
+</head>
+<body>
+<h1 id="documentacion-del-proceso-para-folio">Documentación del proceso para Folio</h1>
+<p><strong>Actividad R2 · UOC 20.671 · Arturo Navarrete Jiménez · Octubre 2026</strong>
+<strong>Reto HealthySmile Lab · Cepillado digital Halloween</strong></p>
+<blockquote>
+<p><strong>Enlace al sketch online de p5:</strong> <code>[A completar: subir sketch al editor online y pegar enlace]</code>
+<strong>Enlace al repositorio público:</strong> https://github.com/anavarreteJdc/healthysmile-halloween
+<strong>Enlace al vídeo de demostración:</strong> <code>[A completar: grabar vídeo de 2 min y subir a YouTube o Drive]</code></p>
+<p><strong>Nota sobre uso de IA (voluntaria, basada en el feedback de Carles en la PEC
+previa):</strong> he utilizado un asistente conversacional como apoyo en la
+investigación de librerías y en la estructuración de la documentación. Las
+decisiones de diseño, los umbrales de detección, el concepto estético y las
+pruebas con mi cámara son míos. Puedo explicar cada parte del código y
+defender el porqué de cada elección, como demostraré en el vídeo.</p>
+</blockquote>
+<hr />
+<h2 id="a-concepto-del-proyecto">A. Concepto del proyecto</h2>
+<p>HealthySmile Lab nos pidió una experiencia que anime a los niños a abrir bien
+la boca al cepillarse los dientes. Mi propuesta se llama <strong>"Boca de
+Calabaza"</strong>: cuando el niño abre la boca frente a la cámara, un cepillo
+mágico de Halloween suelta chispas que espantan a los monstruos de la
+caries. El objetivo es acumular <strong>15 segundos de cepillado real</strong>.</p>
+<ul>
+<li><strong>Público objetivo:</strong> niños de 4 a 8 años. Interfaz grande, textos breves,
+  iconos reconocibles.</li>
+<li><strong>Relación con Halloween:</strong> calabazas como partículas premio, murciélagos
+  moradísimos como "espuma" mágica, verde pantano para el efecto especial,
+  paleta oscura iluminada por el glow naranja. Fuente <em>Creepster</em> para
+  títulos.</li>
+<li><strong>Objetivo interactivo:</strong> una barra de "Limpieza" sube cada segundo que la
+  boca está abierta. Al llenarse → pantalla final "¡Dientes limpios!".</li>
+</ul>
+<hr />
+<h2 id="b-workflow-de-la-aplicacion">B. Workflow de la aplicación</h2>
+<p>Diseñé el flujo en 4 pantallas, con transiciones suaves y una sola
+responsabilidad por pantalla:</p>
+<ol>
+<li><strong>Pantalla de carga.</strong> Mientras se descargan la librería de MediaPipe y el
+   modelo facial (~5 MB), muestro una calabaza animada con <code>@keyframes bob</code></li>
+<li>
+<p><code>wobble</code> y una barra que avanza a medida que
+   <code>initFaceLandmarker(onProgress)</code> reporta progreso (10 % → 40 % → 70 % →
+   100 %). Cumple el requisito explícito "animación de carga inicial".</p>
+</li>
+<li>
+<p><strong>Pantalla de bienvenida.</strong> Logo SVG propio, título con fuente Creepster,
+   3 instrucciones muy breves ("Siéntate frente a la cámara con buena luz",
+   "Abre y cierra la boca para lanzar chispas", "Mantén la boca abierta
+   para efectos especiales") y botón grande "¡Empezar cepillado!" que
+   dispara la activación de la cámara (requisito de interacción previa).</p>
+</li>
+<li>
+<p><strong>Pantalla de juego.</strong> Canvas de p5 ocupando toda la pantalla, vídeo
+   espejado (sensación de espejo del baño), HUD superpuesto con estado de
+   boca, duración actual y barra de limpieza. Dos botones de utilidad:
+   "Reiniciar" (contador a 0) y "Mostrar puntos" (dibuja los landmarks de
+   la boca y los valores reales de ratio y FPS, útil para la defensa).</p>
+</li>
+<li>
+<p><strong>Pantalla final.</strong> Mensaje de celebración y botón "Jugar otra vez".</p>
+</li>
+</ol>
+<p>El flujo se controla desde <code>sketch.js</code> con una función <code>goToScreen(name)</code>
+que cambia la clase <code>.active</code> entre las secciones.</p>
+<hr />
+<h2 id="c-decisiones-tecnicas-explicadas-en-detalle">C. Decisiones técnicas (explicadas en detalle)</h2>
+<h3 id="c1-por-que-mediapipe-face-landmarker-y-no-ml5">C.1 ¿Por qué MediaPipe Face Landmarker y no ml5?</h3>
+<p>El enunciado dice que ml5 limita la calificación a 8/10 y que una alternativa
+permite optar al 10. Investigué las opciones (tabla completa en
+<code>docs/investigacion-librerias.md</code>) y elegí <strong>MediaPipe Face Landmarker 1.2.0</strong>
+por tres razones concretas:</p>
+<ol>
+<li><strong>Es la librería de verdad detrás de ml5.</strong> ml5 FaceMesh envuelve este
+   mismo modelo. Yendo directo a MediaPipe elimino una capa y obtengo los
+   mismos 478 puntos faciales.</li>
+<li><strong>Documentación oficial clara</strong> con ejemplos de <code>runningMode: 'VIDEO'</code>
+   optimizados para webcam, y mantenimiento activo por Google.</li>
+<li><strong>No depende de p5</strong>, así que no tengo problemas de compatibilidad con la
+   migración a p5 2.x que Carles me pidió aplicar en la PEC anterior.</li>
+</ol>
+<p>Como contrapartida, no hay integración oficial con p5 y tuve que escribir el
+pegamento. Son unas 30 líneas en <code>src/faceDetection.js</code>.</p>
+<h3 id="c2-calculo-de-la-apertura-de-la-boca">C.2 Cálculo de la apertura de la boca</h3>
+<p>Esta es la parte técnica central del reto. La explico paso a paso porque es
+lo que me va a preguntar Carles en la defensa:</p>
+<p><strong>Landmarks que uso (índices del modelo de MediaPipe):</strong>
+- <code>13</code> → centro del labio superior (lado interno)
+- <code>14</code> → centro del labio inferior (lado interno)
+- <code>61</code> → comisura izquierda de la boca
+- <code>291</code> → comisura derecha de la boca</p>
+<p><strong>Fórmula del ratio de apertura:</strong></p>
+<pre><code>ratio = distancia(13, 14) / distancia(61, 291)
+</code></pre>
+<p>¿Por qué una proporción y no una distancia en píxeles? Porque la distancia
+en píxeles cambia según el niño se acerque o se aleje de la cámara. Al
+dividir la apertura vertical entre la anchura horizontal, obtengo un número
+que es independiente de la distancia a la cámara. Un ratio de 0.35 significa
+"la apertura vertical es el 35 % del ancho de la boca", y eso vale para
+cualquier distancia.</p>
+<p>Fuente de los índices:
+<a href="https://developers.google.com/mediapipe/solutions/vision/face_landmarker">https://developers.google.com/mediapipe/solutions/vision/face_landmarker</a></p>
+<p><strong>Suavizado (lerp):</strong></p>
+<pre><code class="language-javascript">state.smoothedRatio = p.lerp(state.smoothedRatio, rawRatio, 0.5);
+</code></pre>
+<p>Interpolación lineal con factor 0.5: cada frame el valor filtrado se mueve a
+medio camino del valor nuevo. Elimina ruido de un frame a otro sin añadir
+tanto retraso como una media móvil larga.</p>
+<p><strong>Histéresis (umbrales dobles):</strong></p>
+<pre><code class="language-javascript">const RATIO_OPEN_THRESHOLD  = 0.35;
+const RATIO_CLOSE_THRESHOLD = 0.25;
+</code></pre>
+<p>Dos umbrales distintos para abrir y cerrar. Así, cuando el ratio se queda
+rondando 0.30 (típico cuando el niño apenas separa los labios), el estado
+no parpadea entre "abierta" y "cerrada" en cada frame. Es un patrón clásico
+en electrónica (triggers Schmitt) adaptado a software.</p>
+<h3 id="c3-sistema-de-particulas-basado-en-nature-of-code-cap-4">C.3 Sistema de partículas (basado en Nature of Code cap. 4)</h3>
+<p>Carles ya me señaló en la PEC previa que no documenté bien el origen del
+sistema de partículas. Esta vez lo documento aquí claramente:</p>
+<p><strong>Fuente:</strong> <em>The Nature of Code</em>, capítulo 4 "Particle Systems" de Daniel
+Shiffman — <a href="https://natureofcode.com/particles/">https://natureofcode.com/particles/</a>.</p>
+<p><strong>Patrón:</strong> cada partícula es un objeto con <code>position</code>, <code>velocity</code>,
+<code>acceleration</code> y <code>lifespan</code>. En cada frame:</p>
+<pre><code class="language-javascript">update() {
+  this.vel.add(this.acc);     // velocidad += aceleración (ej. gravedad)
+  this.pos.add(this.vel);     // posición += velocidad
+  this.rotation += this.rotSpeed;
+  this.lifespan -= 1;         // decae un frame
+}
+
+isDead() { return this.lifespan &lt;= 0; }
+</code></pre>
+<p>Un <code>ParticleSystem</code> mantiene un array de partículas, las actualiza y las
+dibuja. Para borrar las muertas sin romper el índice, recorro el array al
+revés:</p>
+<pre><code class="language-javascript">for (let i = this.particles.length - 1; i &gt;= 0; i--) {
+  this.particles[i].update();
+  if (this.particles[i].isDead()) this.particles.splice(i, 1);
+}
+</code></pre>
+<p><strong>Mi adaptación al enunciado — 3 niveles de intensidad:</strong>
+- Apertura &lt; 1 s → chispas naranjas (ligeras, caen por gravedad)
+- Apertura 1-4 s → + murciélagos morados (menos frecuentes, salen hacia
+  arriba)
+- Apertura &gt; 4 s → + anillo de calabazas verdes que gira alrededor de la
+  boca (coreografiado con <code>this.ringAngle += 0.08</code> por frame)</p>
+<p><strong>Rendimiento:</strong> limito a <strong>300 partículas máximo</strong>. Lo medí probando con
+500 (bajaba a 15 FPS en mi portátil) y con 300 se mantiene en 30 FPS fluido.</p>
+<h3 id="c4-eleccion-electron-vs-tauri">C.4 Elección Electron vs Tauri</h3>
+<p>Elegí <strong>Tauri v2</strong> para optar al 2.5 % extra. Tauri usa el WebView del
+sistema (WebView2 en Windows) en lugar de empaquetar Chromium entero. El
+instalable final pesa ~8 MB frente a los ~150 MB de Electron.</p>
+<p>Durante el desarrollo tuve dos problemas:
+1. <strong>Windows Defender marcó <code>rustup-init.exe</code> como sospechoso</strong> al instalar
+   Rust. Es un falso positivo conocido; añadí una excepción y la instalación
+   terminó bien. Rust y cargo compilan sin problemas.
+2. <strong>Mi primera prueba la hice con una versión de MediaPipe que no existía</strong>
+   (<code>0.10.22</code>). jsdelivr devolvía 404 y el import() dinámico fallaba.
+   Comprobé el registro de versiones (<a href="https://data.jsdelivr.com/v1/packages/npm/@mediapipe/tasks-vision">https://data.jsdelivr.com/v1/packages/npm/@mediapipe/tasks-vision</a>)
+   y pasé a la última estable <strong>1.2.0</strong>. Problema resuelto.</p>
+<h3 id="c5-migracion-a-p5js-2x-feedback-de-la-pec-anterior">C.5 Migración a p5.js 2.x (feedback de la PEC anterior)</h3>
+<p>En la PEC previa Carles me indicó actualizar a la última versión de p5 y
+aplicar la nueva carga asíncrona. Lo apliqué aquí:
+- <code>p5@2.2.3</code> desde el CDN.
+- <code>preload()</code> eliminado; uso <code>async setup()</code> con <code>await</code>.
+- MediaPipe se carga en paralelo al loader con un bloque <code>(async () =&gt; { await initFaceLandmarker(...) })()</code>.
+- Guía oficial: <a href="https://p5js.org/tutorials/v2_transition/">https://p5js.org/tutorials/v2_transition/</a></p>
+<hr />
+<h2 id="d-decisiones-esteticas">D. Decisiones estéticas</h2>
+<p><strong>Paleta</strong> (variables CSS en <code>style.css</code>):
+| Rol | Hex | Uso |
+|---|---|---|
+| Fondo oscuro | <code>#0b0014</code> | base de pantalla |
+| Fondo violáceo | <code>#1a0b2e</code> | gradiente con el anterior |
+| Naranja calabaza | <code>#ff7518</code> | marca, chispas, bordes brillantes |
+| Morado neón | <code>#8e44ff</code> | acento secundario, murciélagos |
+| Verde pantano | <code>#39ff14</code> | partícula premio (efecto especial) |
+| Blanco fantasma | <code>#f3eafd</code> | texto principal |</p>
+<p><strong>Tipografía:</strong>
+- <strong>Creepster</strong> (Google Fonts, licencia OFL) para títulos: estética Halloween
+  canónica.
+- <strong>Nunito</strong> (Google Fonts, OFL) para texto corrido: legibilidad en
+  pantallas grandes y pequeñas.</p>
+<p><strong>Elementos gráficos:</strong>
+- Logo SVG original con calabaza + nombre + lema (creado por mí en código,
+  no es una imagen descargada).
+- Partículas dibujadas con <code>beginShape</code>/<code>vertex</code> y <code>ellipse</code> dentro del
+  canvas (chispa = estrella de 4 puntas con 8 vértices; murciélago = elipse
+  + 2 triángulos; calabaza = 3 elipses + rabito).
+- Sonido "spark.wav" original, generado con Python/wave como un barrido
+  exponencial de 800 Hz → 200 Hz con un toque de ruido. Se reproduce con
+  throttling de 150 ms para no saturar.</p>
+<p><strong>Interfaz:</strong>
+- Botones grandes con glow naranja (<code>box-shadow: 0 0 20px #ff7518aa</code>), para
+  que un niño los vea de lejos.
+- HUD con <code>backdrop-filter: blur(6px)</code> sobre <code>rgba(11,0,20,0.75)</code> para que
+  no tape la cara pero sea legible.</p>
+<hr />
+<h2 id="e-proceso-de-desarrollo">E. Proceso de desarrollo</h2>
+<h3 id="e1-esbozos-iniciales">E.1 Esbozos iniciales</h3>
+<blockquote>
+<p><strong><code>[A COMPLETAR]</code></strong> Carles me pidió en la PEC previa que hiciera bocetos a
+mano. Para esta entrega hice bocetos en libreta de:
+1. El flujo de 4 pantallas (loading, bienvenida, juego, final) con las
+   transiciones.
+2. El HUD y la posición del contador y la barra.
+3. Las 3 variantes de partículas (chispa, murciélago, anillo).
+4. Primera versión a mano del logo antes de pasarlo a SVG.</p>
+<p>Están escaneados en <code>esbozos/</code> del repositorio.</p>
+</blockquote>
+<h3 id="e2-prototipos-y-pruebas">E.2 Prototipos y pruebas</h3>
+<p>El proyecto creció en estas fases, cada una comprobada antes de la siguiente:</p>
+<ol>
+<li><strong>Prototipo 1 — cámara + landmarks.</strong> Primera versión mostrando los 478
+   puntos de MediaPipe sobre la cámara, sin partículas. Comprobé que el
+   detector funcionaba a ~30 FPS en mi equipo.</li>
+<li><strong>Prototipo 2 — cálculo de boca.</strong> Añadí el ratio y el panel de
+   depuración con el valor en tiempo real. Calibré los umbrales mirando los
+   valores reales con la boca cerrada (0.15-0.25) y bien abierta
+   (0.40-0.60). Elegí 0.35 como umbral de apertura con histéresis a 0.25.</li>
+<li><strong>Prototipo 3 — partículas básicas.</strong> Sistema con 1 solo tipo de
+   partícula. Validé que no bajaba de 25 FPS con 200 partículas simultáneas.</li>
+<li><strong>Prototipo 4 — temática y 3 niveles.</strong> Añadí los murciélagos, las
+   calabazas y el anillo. Ajusté los tiempos (1 s y 4 s) para que el niño
+   notara el cambio sin tener que esforzarse mucho.</li>
+<li><strong>UI DOM y estados.</strong> Pantallas, botones, loader. CSS en archivo externo.</li>
+<li><strong>Empaquetado Tauri.</strong> Configuración mínima, con fullscreen y permisos
+   de cámara.</li>
+</ol>
+<h3 id="e3-problemas-encontrados-y-soluciones">E.3 Problemas encontrados y soluciones</h3>
+<table>
+<thead>
+<tr>
+<th>Problema</th>
+<th>Solución</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Versión de MediaPipe inexistente (0.10.22)</td>
+<td>Pasé a la última estable 1.2.0 verificada en jsdelivr</td>
+</tr>
+<tr>
+<td>Doble click entraba en modo "renombrar" en Explorer</td>
+<td>Click en el icono, no en el texto</td>
+</tr>
+<tr>
+<td>Rust marcado como malicioso por Defender</td>
+<td>Añadir excepción; falso positivo conocido en <code>rustup-init.exe</code></td>
+</tr>
+<tr>
+<td>Permiso de cámara denegado en WebView2 queda "pegado"</td>
+<td>Documentado en README cómo resetear vía <code>%LOCALAPPDATA%\...\EBWebView\Default</code></td>
+</tr>
+<tr>
+<td>En p5 2.x <code>preload()</code> ya no existe</td>
+<td>Migré a <code>async setup()</code> con <code>await</code> como pide la guía oficial de v2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="e4-mejoras-futuras">E.4 Mejoras futuras</h3>
+<ul>
+<li>Récord personal guardado en <code>localStorage</code>.</li>
+<li>Música Halloween en bucle (ahora solo hay el sonido de chispa).</li>
+<li>Dos jugadores a la vez (MediaPipe acepta <code>numFaces: 2</code>).</li>
+<li>Usar los blendshapes de MediaPipe para premiar sonrisas al terminar.</li>
+<li>Modo "modo doctor" con contador para padres.</li>
+</ul>
+<hr />
+<h2 id="f-referencias-y-licencias">F. Referencias y licencias</h2>
+<p>Referencias detalladas y enlaces completos en <code>docs/referencias.md</code>.
+Inventario de licencias en <code>docs/licencias.md</code>.</p>
+<p><strong>Resumen:</strong>
+- <strong>p5.js 2.2.3</strong> — LGPL-2.1 — https://p5js.org
+- <strong>MediaPipe Face Landmarker 1.2.0</strong> — Apache-2.0 — https://developers.google.com/mediapipe
+- <strong>Modelo <code>face_landmarker.task</code> v1 float16</strong> — Apache-2.0 (Google) — storage.googleapis.com
+- <strong>Tauri v2</strong> — MIT / Apache-2.0 — https://v2.tauri.app
+- <strong>Creepster y Nunito</strong> (Google Fonts) — SIL OFL 1.1
+- <strong>The Nature of Code · Daniel Shiffman</strong> — CC BY-NC 3.0 — https://natureofcode.com/particles/</p>
+<p>Todo lo demás (logo, sonido, código, partículas, iconos) es creación propia
+bajo licencia MIT.</p>
+<hr />
+<h2 id="g-instrucciones-de-ejecucion">G. Instrucciones de ejecución</h2>
+<h3 id="opcion-rapida-navegador-recomendada-para-probar">Opción rápida — Navegador (recomendada para probar)</h3>
+<ol>
+<li>Doble click en <code>EJECUTAR_HEALTHYSMILE.bat</code> (en la raíz de R2).</li>
+<li>Permitir cámara cuando el navegador lo pida.</li>
+<li>Pulsar "¡Empezar cepillado!".</li>
+</ol>
+<h3 id="opcion-escritorio-tauri-version-final">Opción escritorio — Tauri (versión final)</h3>
+<ol>
+<li>Requisitos: Node.js, Rust (ya instalado en mi equipo).</li>
+<li>Doble click en <code>EJECUTAR_TAURI_DESKTOP.bat</code>.</li>
+<li>La ventana arranca a pantalla completa 1920×1080.</li>
+</ol>
+<p>Ver <code>README.md</code> del proyecto para detalles.</p>
+<hr />
+<h2 id="guion-del-video-de-defensa-2-3-minutos">Guión del vídeo de defensa (2-3 minutos)</h2>
+<p>Para el vídeo que subiré a Folio voy a explicar en pantalla con el código
+delante:</p>
+<ol>
+<li><strong>Introducción (15 s)</strong> — Qué es la app, para quién, qué hace.</li>
+<li><strong>Flujo con la cámara (30 s)</strong> — Demostración del cepillado en los 3
+   niveles (chispas → murciélagos → anillo).</li>
+<li><strong>Partículas (45 s)</strong> — Enseño <code>particles.js</code>, explico el patrón de
+   Nature of Code, muestro el método <code>update()</code> y el <code>splice</code> al revés para
+   borrar sin romper el índice.</li>
+<li><strong>Cálculo de boca (45 s)</strong> — Enseño <code>faceDetection.js</code>, explico los 4
+   landmarks, por qué uso un ratio en lugar de una distancia, el suavizado
+   con <code>lerp</code> y la histéresis con dos umbrales.</li>
+<li><strong>Cierre (15 s)</strong> — Qué puede mejorarse, agradecimientos.</li>
+</ol>
+</body>
+</html>
