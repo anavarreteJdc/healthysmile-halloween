@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HealthySmile Halloween · Cepillado Mágico</title>
+
+  <!-- Carles: cargo p5.js 2.x desde CDN para cumplir con tu comentario de la PEC anterior
+       sobre usar la última versión y la carga asíncrona. En el editor online de p5 esto
+       funciona igual. En Tauri necesita internet en el primer arranque. -->
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.min.js" defer></script>
+</head>
+<body>
+  <!-- Carles: todo lo que ve el usuario fuera del canvas lo construyo con el DOM,
+       no con p5. Así puedo aplicar CSS externo y lo reutiliza Tauri sin tocar nada. -->
+  <div id="app">
+
+    <!-- Pantalla 1: Loading inicial -->
+    <section id="screen-loading" class="screen active">
+      <div class="loader">
+        <div class="pumpkin-loader" aria-hidden="true">🎃</div>
+        <h1 class="brand">HealthySmile <span>Halloween</span></h1>
+        <p class="hint">Preparando el cepillo mágico…</p>
+        <div class="progress"><div id="loading-bar" class="progress-fill"></div></div>
+      </div>
+    </section>
+
+    <!-- Pantalla 2: Bienvenida con botón de inicio -->
+    <section id="screen-welcome" class="screen">
+      <div class="welcome">
+        <img src="assets/images/logo.svg" class="hero-logo" alt="HealthySmile Halloween"/>
+        <h1 class="brand">HealthySmile <span>Halloween</span></h1>
+        <p class="subtitle">Abre la boca y espanta a los monstruos de la caries</p>
+        <ul class="instructions">
+          <li>Siéntate frente a la cámara con buena luz</li>
+          <li>Abre y cierra la boca para lanzar chispas</li>
+          <li>Mantén la boca abierta para efectos especiales</li>
+        </ul>
+        <button id="btn-start" class="btn-main">¡Empezar cepillado!</button>
+        <p class="note">Al pulsar el botón se solicitarán permisos de la cámara.</p>
+      </div>
+    </section>
+
+    <!-- Pantalla 3: Juego -->
+    <section id="screen-game" class="screen">
+      <div id="canvas-container"></div>
+      <div class="hud">
+        <div class="hud-item">
+          <span class="hud-label">Boca</span>
+          <span id="hud-mouth" class="hud-value">cerrada</span>
+        </div>
+        <div class="hud-item">
+          <span class="hud-label">Tiempo</span>
+          <span id="hud-time" class="hud-value">0.0s</span>
+        </div>
+        <div class="hud-item wide">
+          <span class="hud-label">Limpieza</span>
+          <div class="progress"><div id="clean-bar" class="progress-fill clean"></div></div>
+        </div>
+      </div>
+      <div class="toolbar">
+        <button id="btn-reset" class="btn-mini">Reiniciar</button>
+        <button id="btn-debug" class="btn-mini">Mostrar puntos</button>
+      </div>
+    </section>
+
+    <!-- Pantalla 4: Final -->
+    <section id="screen-done" class="screen">
+      <div class="welcome">
+        <div class="pumpkin-loader" aria-hidden="true">🎃✨</div>
+        <h1 class="brand">¡Dientes limpios!</h1>
+        <p class="subtitle">Has espantado a todos los monstruos</p>
+        <button id="btn-again" class="btn-main">Jugar otra vez</button>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Carles: cargo los módulos como type="module" porque MediaPipe Tasks es ESM.
+       sketch.js importa faceDetection.js y particles.js. -->
+  <script type="module" src="sketch.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Logo HealthySmile Halloween · creado por Arturo Navarrete para la actividad R2
+     Licencia: MIT (propiedad del autor del proyecto) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" role="img" aria-label="HealthySmile Halloween">
+  <defs>
+    <linearGradient id="pumpkin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffb160"/>
+      <stop offset="1" stop-color="#ff7518"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#8e44ff" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#1a0b2e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- halo -->
+  <ellipse cx="100" cy="100" rx="90" ry="90" fill="url(#glow)"/>
+
+  <!-- calabaza -->
+  <g transform="translate(100 110)">
+    <ellipse cx="-20" cy="0" rx="35" ry="48" fill="url(#pumpkin)"/>
+    <ellipse cx="20" cy="0" rx="35" ry="48" fill="url(#pumpkin)"/>
+    <ellipse cx="0" cy="0" rx="42" ry="52" fill="url(#pumpkin)"/>
+    <!-- rabito -->
+    <rect x="-6" y="-55" width="12" height="14" fill="#4a2d0a" rx="2"/>
+    <!-- ojos -->
+    <polygon points="-18,-14 -8,-14 -13,-4" fill="#0b0014"/>
+    <polygon points="18,-14 8,-14 13,-4" fill="#0b0014"/>
+    <!-- boca con dientes -->
+    <path d="M -22,10 Q -16,25 -8,15 Q 0,25 8,15 Q 16,25 22,10 L 18,22 L 10,16 L 0,22 L -10,16 L -18,22 Z"
+          fill="#0b0014"/>
+  </g>
+
+  <!-- Nombre -->
+  <text x="200" y="80" font-family="'Creepster','Impact',sans-serif" font-size="36" fill="#ff7518"
+        text-anchor="start">HealthySmile</text>
+  <text x="200" y="120" font-family="'Creepster','Impact',sans-serif" font-size="42" fill="#8e44ff"
+        text-anchor="start">Halloween</text>
+  <text x="200" y="150" font-family="'Nunito',sans-serif" font-size="14" fill="#c7b8e0"
+        text-anchor="start">Cepillado mágico interactivo</text>
+</svg>
