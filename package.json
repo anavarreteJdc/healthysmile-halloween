@@ -2,7 +2,7 @@
   "name": "healthysmile-halloween",
   "private": true,
   "version": "1.0.0",
-  "description": "Aplicación interactiva de cepillado dental con detección facial, temática Halloween. UOC 20.671 R2.",
+  "description": "Aplicación interactiva de cepillado dental con detección facial, temática Halloween. Desarrollo de Aplicaciones Interactivas, R2.",
   "author": "Arturo Navarrete Jiménez",
   "license": "MIT",
   "main": "electron/main.js",

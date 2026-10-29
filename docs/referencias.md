@@ -1,6 +1,6 @@
 # Referencias
 
-**Actividad R2 · UOC 20.671 · Arturo Navarrete Jiménez**
+**Actividad R2 · Desarrollo de Aplicaciones Interactivas · Arturo Navarrete Jiménez**
 
 ## Recursos de la asignatura (carpeta 2_Recursos_y_enlaces)
 

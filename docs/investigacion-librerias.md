@@ -1,6 +1,6 @@
 # Investigación de librerías de detección facial
 
-**Actividad R2 · UOC 20.671 · Arturo Navarrete Jiménez · Octubre 2026**
+**Actividad R2 · Desarrollo de Aplicaciones Interactivas · Arturo Navarrete Jiménez · Octubre 2026**
 
 El enunciado dice que usar ml5.js limita la nota a 8/10 y que una alternativa
 permite optar al 10/10. Esta nota recoge la comparación que hice antes de elegir.

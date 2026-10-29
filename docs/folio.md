@@ -1,6 +1,6 @@
 # Documentación del proceso para Folio
 
-**Actividad R2 · UOC 20.671 · Arturo Navarrete Jiménez · Octubre 2026**
+**Actividad R2 · Desarrollo de Aplicaciones Interactivas · Arturo Navarrete Jiménez · Octubre 2026**
 **Reto HealthySmile Lab · Cepillado digital Halloween**
 
 > **Enlace al sketch online de p5:** `[A completar: subir sketch al editor online y pegar enlace]`

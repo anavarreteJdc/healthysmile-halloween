@@ -5,7 +5,7 @@ bien la boca durante el cepillado dental, con **temática Halloween**.
 Detecta la cara y la apertura de la boca con la webcam y responde con
 partículas animadas.
 
-Actividad **R2** · UOC · 20.671 Desarrollo de Aplicaciones Interactivas
+Actividad **R2** · Grado Multimedia · UOC · Desarrollo de Aplicaciones Interactivas
 Autor: **Arturo Navarrete Jiménez** · Octubre 2026
 
 ![Captura — se añadirá cuando ejecute la app](docs/screenshot.png)

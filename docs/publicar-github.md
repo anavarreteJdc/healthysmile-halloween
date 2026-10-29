@@ -20,7 +20,7 @@ Esto crea el repo público en tu cuenta y hace el push. Terminado.
 1. Abre https://github.com/new
 2. Nombre: **healthysmile-halloween**
 3. Descripción: *Cepillado digital interactivo con detección facial y
-   temática Halloween. UOC 20.671 R2.*
+   temática Halloween. Desarrollo de Aplicaciones Interactivas, R2.*
 4. Público. **No** añadas README, .gitignore ni LICENSE (ya los tenemos).
 5. Pulsa **Create repository**.
 6. Copia la URL que te muestran (algo como

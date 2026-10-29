@@ -1,6 +1,6 @@
 # Licencias de recursos utilizados
 
-**Actividad R2 · UOC 20.671 · Arturo Navarrete Jiménez**
+**Actividad R2 · Desarrollo de Aplicaciones Interactivas · Arturo Navarrete Jiménez**
 
 Cumplo con la "Nota sobre propiedad intelectual" del enunciado: enumero
 todos los recursos externos, su autor, su origen y su licencia. También
